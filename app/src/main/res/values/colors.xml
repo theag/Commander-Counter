@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#bf360c</color>
+    <color name="colorPrimaryDark">#870000</color>
+    <color name="colorAccent">#bf360c</color>
+    <color name="manaUntyped">#D8D8D8</color>
+    <color name="manaRed">#F6A28B</color>
+    <color name="manaBlue">#9FDCF9</color>
+    <color name="manaGreen">#8CD3AB</color>
+    <color name="manaWhite">#FFFFE1</color>
+    <color name="manaBlack">#C4B8B6</color>
+</resources>

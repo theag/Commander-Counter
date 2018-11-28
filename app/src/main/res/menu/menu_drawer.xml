@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_add_commander"
+        android:icon="@drawable/add_circle"
+        android:title="Add New Commander" />
+    <group
+        android:id="@+id/nav_grp_commanders"
+        android:checkableBehavior="single" />
+</menu>
