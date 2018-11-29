@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edit_expression"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:inputType="none"/>
+
+    <TextView
+        android:id="@+id/text_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_below="@+id/edit_expression"
+        android:gravity="right"
+        android:textAlignment="gravity"/>
+
+    <TableLayout
+        android:id="@+id/layout_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_result"
+        android:layout_centerHorizontal="true">
+        <TableRow>
+            <Button
+                android:id="@+id/btn_7"
+                android:text="7" />
+            <Button
+                android:id="@+id/btn_8"
+                android:text="8"/>
+            <Button
+                android:id="@+id/btn_9"
+                android:text="9"/>
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/btn_4"
+                android:text="4"/>
+            <Button
+                android:id="@+id/btn_5"
+                android:text="5"/>
+            <Button
+                android:id="@+id/btn_6"
+                android:text="6"/>
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/btn_1"
+                android:text="1"/>
+            <Button
+                android:id="@+id/btn_2"
+                android:text="2"/>
+            <Button
+                android:id="@+id/btn_3"
+                android:text="3"/>
+        </TableRow>
+        <TableRow>
+            <LinearLayout android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_plus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minWidth="0dp"
+                    android:text="+"/>
+                <Button
+                    android:id="@+id/btn_minus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minWidth="0dp"
+                    android:text="-"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_0"
+                android:text="0"/>
+            <Button
+                android:id="@+id/btn_backspace"
+                android:text="DEL"/>
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

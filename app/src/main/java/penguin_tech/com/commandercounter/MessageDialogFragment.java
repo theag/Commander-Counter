@@ -7,9 +7,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-public class MessageDialog extends DialogFragment {
+public class MessageDialogFragment extends DialogFragment {
 
-    public static final String MESSAGE = "MessageDialog.message";
+    public static final String MESSAGE = "MessageDialogFragment.message";
 
     private DialogClickListener listener;
 

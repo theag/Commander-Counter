@@ -8,6 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -17,6 +23,13 @@ public class DataController extends BaseAdapter {
     public static final char ETX = (char)3;
 
     private static DataController instance = null;
+
+    public static DataController loadInstance(File f) throws IOException {
+        if(instance == null) {
+            instance = new DataController(f);
+        }
+        return instance;
+    }
 
     public static DataController getInstance() {
         if(instance == null) {
@@ -34,6 +47,32 @@ public class DataController extends BaseAdapter {
 
     private DataController() {
         commanders = new ArrayList<>();
+    }
+
+    private DataController(File file) throws IOException {
+        commanders = new ArrayList<>();
+        byte[] bytes = new byte[(int)file.length()];
+        FileInputStream fin = new FileInputStream(file);
+        fin.read(bytes);
+        fin.close();
+        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+        while(buffer.hasRemaining()) {
+            commanders.add(new Commander(buffer));
+        }
+    }
+
+    public void save(File file) throws IOException {
+        int saveSize = 0;
+        for(Commander c : commanders) {
+            saveSize += c.saveSize();
+        }
+        ByteBuffer buffer = ByteBuffer.allocate(saveSize);
+        for(Commander c : commanders) {
+            c.save(buffer);
+        }
+        FileOutputStream fOut = new FileOutputStream(file);
+        fOut.write(buffer.array());
+        fOut.close();
     }
 
     @Override

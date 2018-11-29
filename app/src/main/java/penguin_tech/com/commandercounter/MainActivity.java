@@ -10,6 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import java.io.File;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity implements DialogClickListener {
 
     private static final String DIALOG_COMMANDER = "MainActivity.Dialog.Commander";
@@ -19,6 +22,15 @@ public class MainActivity extends AppCompatActivity implements DialogClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        File f = new File(getFilesDir(), "data.bin");
+        if(f.exists()) {
+            try {
+                DataController.loadInstance(f);
+            } catch (IOException e) {
+                e.printStackTrace(System.out);
+            }
+        }
 
         ListView lv = findViewById(R.id.lv_commanders);
         DataController.getInstance().context = this;
@@ -35,7 +47,12 @@ public class MainActivity extends AppCompatActivity implements DialogClickListen
     @Override
     protected void onPause() {
         super.onPause();
-        //todo: DataController.getInstance().saveData(getFilesDir());
+        try {
+            DataController instance = DataController.getInstance();
+            instance.save(new File(getFilesDir(), "data.bin"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -84,19 +101,31 @@ public class MainActivity extends AppCompatActivity implements DialogClickListen
         switch (tag) {
             case DIALOG_COMMANDER:
                 if(data.containsKey(CommanderDialog.ERROR)) {
-                    frag = new MessageDialog();
+                    frag = new MessageDialogFragment();
                     args = new Bundle();
                     args.putAll(data);
-                    args.putString(MessageDialog.MESSAGE, data.getString(CommanderDialog.ERROR));
+                    args.putString(MessageDialogFragment.MESSAGE, data.getString(CommanderDialog.ERROR));
                     frag.setArguments(args);
                     frag.show(getSupportFragmentManager(), DIALOG_MESSAGE);
                 } else if(data.containsKey(CommanderDialog.INDEX)) {
                     DataController.getInstance().update(data.getInt(CommanderDialog.INDEX),
                             data.getString(CommanderDialog.NAME),
                             data.getString(CommanderDialog.MANA));
+                    try {
+                        DataController instance = DataController.getInstance();
+                        instance.save(new File(getFilesDir(), "data.bin"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     DataController.getInstance().create(data.getString(CommanderDialog.NAME),
                             data.getString(CommanderDialog.MANA));
+                    try {
+                        DataController instance = DataController.getInstance();
+                        instance.save(new File(getFilesDir(), "data.bin"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case DIALOG_MESSAGE:

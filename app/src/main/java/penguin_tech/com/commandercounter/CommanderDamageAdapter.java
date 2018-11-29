@@ -53,7 +53,11 @@ public class CommanderDamageAdapter extends BaseAdapter {
     public void setCount(int count) {
         int[] temp = commanderDamage;
         commanderDamage = new int[count];
-        System.arraycopy(temp, 0, commanderDamage, 0, temp.length);
+        if(count > temp.length) {
+            System.arraycopy(temp, 0, commanderDamage, 0, temp.length);
+        } else {
+            System.arraycopy(temp, 0, commanderDamage, 0, count);
+        }
         notifyDataSetChanged();
     }
 
@@ -64,6 +68,13 @@ public class CommanderDamageAdapter extends BaseAdapter {
 
     public void up(int position) {
         commanderDamage[position]++;
+        notifyDataSetChanged();
+    }
+
+    public void reset() {
+        for(int i = 0; i < commanderDamage.length; i++) {
+            commanderDamage[i] = 0;
+        }
         notifyDataSetChanged();
     }
 }

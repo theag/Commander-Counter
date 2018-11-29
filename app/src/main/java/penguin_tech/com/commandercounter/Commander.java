@@ -1,5 +1,7 @@
 package penguin_tech.com.commandercounter;
 
+import java.nio.ByteBuffer;
+
 public class Commander implements Comparable<Commander> {
 
     public static boolean isValidCost(String cost) {
@@ -47,6 +49,25 @@ public class Commander implements Comparable<Commander> {
         System.arraycopy(manaCost, 0, this.manaCost, 0, manaCost.length);
     }
 
+    public Commander(ByteBuffer buffer) {
+        name = "";
+        char c = buffer.getChar();
+        while(c != DataController.ETX) {
+            name += c;
+            c = buffer.getChar();
+        }
+        int count = buffer.getInt();
+        manaCost = new String[count];
+        for(int i = 0; i < count; i++) {
+            manaCost[i] = "";
+            c = buffer.getChar();
+            while(c != DataController.ETX) {
+                manaCost[i] += c;
+                c = buffer.getChar();
+            }
+        }
+    }
+
     public String getManaCostString() {
         String rv = "";
         for(String mc : manaCost) {
@@ -61,5 +82,27 @@ public class Commander implements Comparable<Commander> {
     @Override
     public int compareTo(Commander commander) {
         return name.compareTo(commander.name);
+    }
+
+    public int saveSize() {
+        int rv = 2*(name.length() + 1) + 4;
+        for(String mc : manaCost) {
+            rv += 2*(mc.length() + 1);
+        }
+        return rv;
+    }
+
+    public void save(ByteBuffer buffer) {
+        for(int i = 0; i < name.length(); i++) {
+            buffer.putChar(name.charAt(i));
+        }
+        buffer.putChar(DataController.ETX);
+        buffer.putInt(manaCost.length);
+        for(String mc : manaCost) {
+            for(int i = 0; i < mc.length(); i++) {
+                buffer.putChar(mc.charAt(i));
+            }
+            buffer.putChar(DataController.ETX);
+        }
     }
 }

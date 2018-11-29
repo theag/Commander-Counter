@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -10,28 +12,32 @@
         android:layout_marginLeft="2dp"
         android:layout_marginTop="2dp"/>
 
-    <ImageButton
-        android:id="@+id/btn_commander_down"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_player"
-        android:src="@drawable/remove_circle"
-        android:onClick="btnClick"/>
-    <TextView
-        android:id="@+id/txt_commander"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn_commander_down"
-        android:layout_toRightOf="@+id/btn_commander_down"
-        android:ems="3"/>
+        android:orientation="horizontal">
 
-    <ImageButton
-        android:id="@+id/btn_commander_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/txt_commander"
-        android:layout_below="@+id/txt_player"
-        android:src="@drawable/add_circle"
-        android:onClick="btnClick"/>
+        <ImageButton
+            android:id="@+id/btn_commander_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/remove_circle"
+            android:onClick="btnClick"/>
+        <TextView
+            android:id="@+id/txt_commander"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:ems="3"/>
 
-</RelativeLayout>
+        <ImageButton
+            android:id="@+id/btn_commander_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_circle"
+            android:onClick="btnClick"/>
+
+    </LinearLayout>
+
+</LinearLayout>

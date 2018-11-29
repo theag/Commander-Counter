@@ -40,7 +40,7 @@
             android:onClick="btnClick"/>
 
         <LinearLayout
-            android:id="@+id/lo_cmc"
+            android:id="@+id/lo_mana"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -76,7 +76,9 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
-            android:textSize="100sp"/>
+            android:textSize="100sp"
+            android:clickable="true"
+            android:onClick="btnClick"/>
 
         <ImageButton
             android:id="@+id/btn_life_up"
