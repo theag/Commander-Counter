@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/add_circle_54dp"
+        style="@style/AppTheme.FAB"
+        android:src="@drawable/add_white"
         android:onClick="btnClick"/>
 
 

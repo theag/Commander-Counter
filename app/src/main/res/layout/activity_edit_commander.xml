@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditCommanderActivity">
+
+    <TextView
+        android:id="@+id/lbl_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"/>
+
+    <EditText
+        android:id="@+id/edt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbl_name"
+        android:ems="10"
+        android:inputType="textCapWords|textNoSuggestions"/>
+
+    <TextView
+        android:id="@+id/lbl_cast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_name"
+        android:text="Casting Cost"/>
+
+    <LinearLayout
+        android:id="@+id/ll_mana"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbl_cast"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edt_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="2"
+            android:inputType="number"/>
+
+        <LinearLayout
+            android:id="@+id/lo_mana"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_add_mana"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_name"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/add_white"
+            android:onClick="btnClick"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lbl_colour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_mana"
+        android:text="Colour Scheme"/>
+
+    <GridLayout
+        android:id="@+id/gl_colour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbl_colour"
+        android:columnCount="4"
+        android:useDefaultMargins="true">
+
+        <TextView
+            android:text="Header Text"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="right"/>
+        <ImageView
+            android:id="@+id/iv_header_text"
+            android:src="@drawable/colour_square"
+            android:clickable="true"
+            android:onClick="btnClick"/>
+
+        <TextView
+            android:text="Buttons"
+            android:layout_gravity="center_vertical|right" />
+        <ImageView
+            android:id="@+id/iv_buttons"
+            android:src="@drawable/colour_square"
+            android:clickable="true"
+            android:onClick="btnClick"/>
+
+        <TextView
+            android:text="Counter Text"
+            android:layout_gravity="center_vertical|right"/>
+        <ImageView
+            android:id="@+id/iv_counter_text"
+            android:src="@drawable/colour_square"
+            android:clickable="true"
+            android:onClick="btnClick"/>
+
+        <TextView
+            android:text="Background"
+            android:layout_gravity="center_vertical|right" />
+        <ImageView
+            android:id="@+id/iv_background"
+            android:src="@drawable/colour_square"
+            android:clickable="true"
+            android:onClick="btnClick"/>
+
+    </GridLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_colour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gl_colour"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button Image Colour"/>
+
+        <Switch
+            android:id="@+id/sw_button_image_colour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textOn="Black"
+            android:textOff="White"
+            android:showText="true"
+            android:onClick="btnClick"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lbl_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_colour"
+        android:text="Example"/>
+
+    <LinearLayout
+        android:id="@+id/ll_example"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbl_example"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txt_example_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Large"
+            android:text="Commander Name"/>
+        <TextView
+            android:id="@+id/txt_example_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cast Count"/>
+        <ImageButton
+            android:id="@+id/btn_example"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_white"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Save"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:onClick="saveClick"/>
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/btn_save"
+        android:text="Cancel"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:onClick="saveClick"/>
+
+</RelativeLayout>

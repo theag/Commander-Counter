@@ -13,10 +13,11 @@ import android.widget.ListView;
 import java.io.File;
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity implements DialogClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final String DIALOG_COMMANDER = "MainActivity.Dialog.Commander";
     private static final String DIALOG_MESSAGE = "MainActivity.Dialog.Message";
+    private static final int EDIT_COMMANDER_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements DialogClickListen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        /*MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);*/
         return true;
     }
 
@@ -69,69 +70,24 @@ public class MainActivity extends AppCompatActivity implements DialogClickListen
     }
 
     public void btnClick(View v) {
-        DialogFragment frag;
-        Bundle args;
+        Intent intent;
         switch (v.getId()) {
             case R.id.btn_add_commander:
-                frag = new CommanderDialog();
-                frag.show(getSupportFragmentManager(), DIALOG_COMMANDER);
+                intent = new Intent(this, EditCommanderActivity.class);
+                startActivityForResult(intent, EDIT_COMMANDER_REQUEST);
                 break;
             case R.id.btn_edit:
-                frag = new CommanderDialog();
-                args = new Bundle();
-                args.putInt(CommanderDialog.INDEX, (int)v.getTag());
-                frag.setArguments(args);
-                frag.show(getSupportFragmentManager(), DIALOG_COMMANDER);
+                intent = new Intent(this, EditCommanderActivity.class);
+                intent.putExtra(EditCommanderActivity.INDEX, (int)v.getTag());
+                startActivityForResult(intent, EDIT_COMMANDER_REQUEST);
                 break;
             case R.id.btn_delete:
                 DataController.getInstance().delete((int)v.getTag());
                 break;
             case R.id.lo_commander:
-                Intent intent = new Intent(this, CommanderActivity.class);
+                intent = new Intent(this, CommanderActivity.class);
                 intent.putExtra(CommanderActivity.INDEX, (int)v.getTag());
                 startActivity(intent);
-                break;
-        }
-    }
-
-    @Override
-    public void onDialogClick(String tag, Bundle data) {
-        DialogFragment frag;
-        Bundle args;
-        switch (tag) {
-            case DIALOG_COMMANDER:
-                if(data.containsKey(CommanderDialog.ERROR)) {
-                    frag = new MessageDialogFragment();
-                    args = new Bundle();
-                    args.putAll(data);
-                    args.putString(MessageDialogFragment.MESSAGE, data.getString(CommanderDialog.ERROR));
-                    frag.setArguments(args);
-                    frag.show(getSupportFragmentManager(), DIALOG_MESSAGE);
-                } else if(data.containsKey(CommanderDialog.INDEX)) {
-                    DataController.getInstance().update(data.getInt(CommanderDialog.INDEX),
-                            data.getString(CommanderDialog.NAME),
-                            data.getString(CommanderDialog.MANA));
-                    try {
-                        DataController instance = DataController.getInstance();
-                        instance.save(new File(getFilesDir(), "data.bin"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    DataController.getInstance().create(data.getString(CommanderDialog.NAME),
-                            data.getString(CommanderDialog.MANA));
-                    try {
-                        DataController instance = DataController.getInstance();
-                        instance.save(new File(getFilesDir(), "data.bin"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            case DIALOG_MESSAGE:
-                frag = new CommanderDialog();
-                frag.setArguments(data);
-                frag.show(getSupportFragmentManager(), DIALOG_COMMANDER);
                 break;
         }
     }

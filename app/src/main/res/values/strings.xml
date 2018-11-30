@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">Commander Counter</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="help_line_1">Format is &lt;untyped number&gt;,&lt;coloured mana WUBRG&gt;,...</string>
+    <string-array name="mana_color">
+        <item>Black</item>
+        <item>Blue</item>
+        <item>Green</item>
+        <item>Red</item>
+        <item>White</item>
+    </string-array>
+    <string-array name="mana_code">
+        <item>B</item>
+        <item>U</item>
+        <item>G</item>
+        <item>R</item>
+        <item>W</item>
+    </string-array>
 </resources>

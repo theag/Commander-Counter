@@ -7,7 +7,6 @@ import android.graphics.drawable.LevelListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,11 +38,14 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
         index = getIntent().getIntExtra(INDEX, -1);
         castCount = 0;
         life = 40;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        adapter = new CommanderDamageAdapter(this, Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_PLAYER_COUNT, "3")));
+        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        //todo:adapter = new CommanderDamageAdapter(this, Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_PLAYER_COUNT, "3")));
         Commander c = DataController.getInstance().getItem(index);
         TextView tv = findViewById(R.id.txt_commander_name);
-        tv.setText(c.name +" Casting");
+        tv.setText(c.name);
+        tv.setTextColor(c.headerText);
+        LinearLayout ll = (LinearLayout) tv.getParent();
+        ll.setBackgroundColor(c.background);
         tv = findViewById(R.id.txt_cast);
         tv.setText(""+castCount);
         tv = findViewById(R.id.txt_life);
@@ -51,6 +53,10 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
         GridView gv = findViewById(R.id.gv_commander_damage);
         gv.setAdapter(adapter);
         setupMana(c.manaCost, true);
+        findViewById(R.id.btn_cast_down).setBackgroundColor(c.buttons);
+        findViewById(R.id.btn_cast_up).setBackgroundColor(c.buttons);
+        findViewById(R.id.btn_life_down).setBackgroundColor(c.buttons);
+        findViewById(R.id.btn_life_up).setBackgroundColor(c.buttons);
     }
 
     private void setupMana(String[] manaCost, boolean setInitial) {
@@ -110,33 +116,15 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_commander, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.mi_reset:
-                castCount = 0;
-                life = 40;
-                TextView tv = findViewById(R.id.txt_cast);
-                tv.setText(""+castCount);
-                tv = findViewById(R.id.txt_life);
-                tv.setText(""+life);
-                adapter.reset();
-                updateMana();
-                return true;
-            case R.id.mi_settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivityForResult(intent, SETTINGS_REQUEST);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    private void reset() {
+        castCount = 0;
+        life = 40;
+        TextView tv = findViewById(R.id.txt_cast);
+        tv.setText(""+castCount);
+        tv = findViewById(R.id.txt_life);
+        tv.setText(""+life);
+        adapter.reset();
+        updateMana();
     }
 
     public void btnClick(View view) {
@@ -207,11 +195,11 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
         switch (requestCode) {
             case SETTINGS_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                    /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                     int count = Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_PLAYER_COUNT, "3"));
                     if(count != adapter.getCount()) {
                         adapter.setCount(count);
-                    }
+                    }*/
                 }
                 break;
         }
@@ -229,5 +217,42 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
             frag.setArguments(args);
             frag.show(getSupportFragmentManager(),"");
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            hideSystemUI();
+        } else {
+            showSystemUI();
+        }
+    }
+
+    private void hideSystemUI() {
+        // Enables regular immersive mode.
+        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
+        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    // Shows the system bars by removing all the flags
+// except for the ones that make the content appear under the system bars.
+    private void showSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 }

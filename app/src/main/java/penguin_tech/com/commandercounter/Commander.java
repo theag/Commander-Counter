@@ -4,49 +4,23 @@ import java.nio.ByteBuffer;
 
 public class Commander implements Comparable<Commander> {
 
-    public static boolean isValidCost(String cost) {
-        String wubrg = "WUBRG";
-        String[] split = cost.split(",");
-        boolean isNumber;
-        int c;
-        for(int i = 0; i < split.length; i++) {
-            isNumber = false;
-            if(i == 0) {
-               try {
-                   c = Integer.parseInt(split[i]);
-                   if(c == 0 && split.length > 1) {
-                       return false;
-                   } else if(c < 0) {
-                       return false;
-                   } else {
-                       isNumber = true;
-                   }
-               } catch (NumberFormatException ex) {
-               }
-            }
-            if(!isNumber) {
-                if(split[i].length() > 2 || split[i].length() < 1) {
-                    return false;
-                } else if(split[i].length() == 2) {
-                    if(!wubrg.contains(split[i].substring(0, 1))) {
-                        return false;
-                    }
-                    if(split[i].charAt(1) != 'P') {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
     public String name;
     public String[] manaCost;
+    public int headerText;
+    public int counterText;
+    public int buttons;
+    public int background;
+    public boolean buttonImageBlack;
 
-    public Commander(String name, String[] manaCost) {
+    public Commander(String name, String[] manaCost, int headerText, int counterText, int buttons, int background, boolean buttonImageBlack) {
         this.name = name;
         this.manaCost = new String[manaCost.length];
         System.arraycopy(manaCost, 0, this.manaCost, 0, manaCost.length);
+        this.headerText = headerText;
+        this.counterText = counterText;
+        this.buttons = buttons;
+        this.background = background;
+        this.buttonImageBlack = buttonImageBlack;
     }
 
     public Commander(ByteBuffer buffer) {
@@ -66,17 +40,11 @@ public class Commander implements Comparable<Commander> {
                 c = buffer.getChar();
             }
         }
-    }
-
-    public String getManaCostString() {
-        String rv = "";
-        for(String mc : manaCost) {
-            if(!rv.isEmpty()) {
-                rv += ",";
-            }
-            rv += mc;
-        }
-        return rv;
+        headerText = buffer.getInt();
+        counterText = buffer.getInt();
+        buttons = buffer.getInt();
+        background = buffer.getInt();
+        buttonImageBlack = buffer.get() == 1;
     }
 
     @Override
@@ -89,6 +57,7 @@ public class Commander implements Comparable<Commander> {
         for(String mc : manaCost) {
             rv += 2*(mc.length() + 1);
         }
+        rv += 4*4 + 1;
         return rv;
     }
 
@@ -103,6 +72,15 @@ public class Commander implements Comparable<Commander> {
                 buffer.putChar(mc.charAt(i));
             }
             buffer.putChar(DataController.ETX);
+        }
+        buffer.putInt(headerText);
+        buffer.putInt(counterText);
+        buffer.putInt(buttons);
+        buffer.putInt(background);
+        if(buttonImageBlack) {
+            buffer.put((byte)1);
+        } else {
+            buffer.put((byte)0);
         }
     }
 }

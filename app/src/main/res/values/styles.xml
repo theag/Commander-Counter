@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -9,8 +9,13 @@
         <item name="imageButtonStyle">@style/AppTheme.ImageButton</item>
     </style>
 
-    <style name="AppTheme.ImageButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:minWidth">0dp</item>
+    <style name="AppTheme.ImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:backgroundTint" tools:targetApi="lollipop">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.FAB" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/fab_background</item>
+        <item name="android:layout_margin">16dp</item>
     </style>
 
 </resources>

@@ -9,4 +9,7 @@
     <color name="manaGreen">#8CD3AB</color>
     <color name="manaWhite">#FFFFE1</color>
     <color name="manaBlack">#C4B8B6</color>
+    <color name="headerTextDefault">#000000</color>
+    <color name="counterTextDefault">#808080</color>
+    <color name="backgroundDefault">#FFFFFF</color>
 </resources>
