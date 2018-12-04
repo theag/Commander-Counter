@@ -1,16 +1,12 @@
 package penguin_tech.com.commandercounter;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.LevelListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -23,6 +19,8 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
     public static final String EDIT_LIFE_DIALOG = "CommanderActivity.EditLifeDialog";
 
     private static final int SETTINGS_REQUEST = 1;
+
+    private static final int[][] NO_STATE = new int[1][0];
 
     private int index;
     private int initialUntyped;
@@ -53,10 +51,11 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
         GridView gv = findViewById(R.id.gv_commander_damage);
         gv.setAdapter(adapter);
         setupMana(c.manaCost, true);
-        findViewById(R.id.btn_cast_down).setBackgroundColor(c.buttons);
-        findViewById(R.id.btn_cast_up).setBackgroundColor(c.buttons);
-        findViewById(R.id.btn_life_down).setBackgroundColor(c.buttons);
-        findViewById(R.id.btn_life_up).setBackgroundColor(c.buttons);
+        ColorStateList csl = new ColorStateList(NO_STATE, new int[]{c.buttons});
+        findViewById(R.id.btn_cast_down).setBackgroundTintList(csl);
+        findViewById(R.id.btn_cast_up).setBackgroundTintList(csl);
+        findViewById(R.id.btn_life_down).setBackgroundTintList(csl);
+        findViewById(R.id.btn_life_up).setBackgroundTintList(csl);
     }
 
     private void setupMana(String[] manaCost, boolean setInitial) {

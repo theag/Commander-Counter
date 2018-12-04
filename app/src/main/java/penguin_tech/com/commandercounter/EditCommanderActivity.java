@@ -1,15 +1,14 @@
 package penguin_tech.com.commandercounter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.LevelListDrawable;
-import android.media.Image;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,6 +25,8 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
     public static final String INDEX = "EditCommanderActivity.index";
 
     private static final String COLOUR_DIALOG = "EditCommanderActivity.colourDialog";
+
+    private static final int[][] NO_STATE = new int[1][0];
 
     private int index;
     private int[] colours;
@@ -85,21 +86,30 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
                 } else {
                     tv.setText(mana);
                 }
-                ImageView iv = findViewById(R.id.iv_header_text);
-                colours[0] = c.headerText;
-                iv.setBackgroundColor(colours[0]);
-                iv = findViewById(R.id.iv_counter_text);
-                colours[1] = c.counterText;
-                iv.setBackgroundColor(colours[1]);
-                iv = findViewById(R.id.iv_buttons);
-                colours[2] = c.buttons;
-                iv.setBackgroundColor(colours[2]);
-                iv = findViewById(R.id.iv_background);
-                colours[3] = c.background;
-                iv.setBackgroundColor(colours[3]);
-                Switch sw = findViewById(R.id.sw_button_image_colour);
-                sw.setChecked(c.buttonImageBlack);
             }
+            ImageView iv = findViewById(R.id.iv_header_text);
+            colours[0] = c.headerText;
+            iv.setBackgroundColor(colours[0]);
+            iv = findViewById(R.id.iv_counter_text);
+            tv = findViewById(R.id.txt_example_header);
+            tv.setTextColor(colours[0]);
+            colours[1] = c.counterText;
+            iv.setBackgroundColor(colours[1]);
+            iv = findViewById(R.id.iv_buttons);
+            tv = findViewById(R.id.txt_example_counter);
+            tv.setTextColor(colours[1]);
+            colours[2] = c.buttons;
+            iv.setBackgroundColor(colours[2]);
+            ImageButton btn = findViewById(R.id.btn_example);
+            ColorStateList csl = new ColorStateList(NO_STATE, new int[]{colours[2]});
+            btn.setBackgroundTintList(csl);
+            iv = findViewById(R.id.iv_background);
+            colours[3] = c.background;
+            iv.setBackgroundColor(colours[3]);
+            ll = findViewById(R.id.ll_example);
+            ll.setBackgroundColor(colours[3]);
+            Switch sw = findViewById(R.id.sw_button_image_colour);
+            sw.setChecked(c.buttonImageBlack);
         } else {
             ImageView iv = findViewById(R.id.iv_header_text);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -191,17 +201,9 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
                     Switch s = (Switch) view;
                     ImageButton ib = findViewById(R.id.btn_example);
                     if (s.isChecked()) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            ib.setImageDrawable(getDrawable(R.drawable.add_black));
-                        } else {
-                            ib.setImageDrawable(getResources().getDrawable(R.drawable.add_black));
-                        }
+                        ib.setImageDrawable(getDrawable(R.drawable.add_black));
                     } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            ib.setImageDrawable(getDrawable(R.drawable.add_white));
-                        } else {
-                            ib.setImageDrawable(getResources().getDrawable(R.drawable.add_white));
-                        }
+                        ib.setImageDrawable(getDrawable(R.drawable.add_white));
                     }
                     break;
             }
@@ -342,7 +344,8 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
                     iv = findViewById(R.id.iv_buttons);
                     iv.setBackgroundColor(colours[2]);
                     ImageButton btn = findViewById(R.id.btn_example);
-                    btn.setBackgroundColor(colours[2]);
+                    ColorStateList csl = new ColorStateList(NO_STATE, new int[]{colours[2]});
+                    btn.setBackgroundTintList(csl);
                     break;
                 case '3':
                     colours[3] = data.getInt(ColourDialogFragment.COLOUR);
