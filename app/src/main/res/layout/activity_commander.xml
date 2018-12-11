@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        style="@style/TextAppearance.AppCompat.Large"/>
+        android:textSize="@dimen/header_text_size"/>
 
     <TextView
         android:id="@+id/lbl_1"
@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
+            android:textSize="@dimen/counter_text_size"
             android:ems="2"/>
 
         <ImageButton
@@ -75,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/remove_white"
+            android:src="@drawable/remove_white_big"
             android:onClick="btnClick"/>
 
         <TextView
@@ -94,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/add_white"
+            android:src="@drawable/add_white_big"
             android:onClick="btnClick"/>
 
     </LinearLayout>

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 public class CommanderActivity extends AppCompatActivity implements EditValueDialogFragment.EditValueListener {
 
     public static final String INDEX = "CommanderActivity.index";
+    public static final String PLAYER_COUNT = "CommanderActivity.player.count";
     public static final String EDIT_LIFE_DIALOG = "CommanderActivity.EditLifeDialog";
 
     private static final int SETTINGS_REQUEST = 1;
@@ -36,9 +38,8 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
         index = getIntent().getIntExtra(INDEX, -1);
         castCount = 0;
         life = 40;
-        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        //todo:adapter = new CommanderDamageAdapter(this, Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_PLAYER_COUNT, "3")));
         Commander c = DataController.getInstance().getItem(index);
+        adapter = new CommanderDamageAdapter(this, getIntent().getIntExtra(PLAYER_COUNT, 4), c.counterText, c.buttons, c.buttonImageBlack);
         TextView tv = findViewById(R.id.txt_commander_name);
         tv.setText(c.name);
         tv.setTextColor(c.headerText);
@@ -46,8 +47,10 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
         ll.setBackgroundColor(c.background);
         tv = findViewById(R.id.txt_cast);
         tv.setText(""+castCount);
+        tv.setTextColor(c.counterText);
         tv = findViewById(R.id.txt_life);
         tv.setText(""+life);
+        tv.setTextColor(c.counterText);
         GridView gv = findViewById(R.id.gv_commander_damage);
         gv.setAdapter(adapter);
         setupMana(c.manaCost, true);
@@ -56,6 +59,16 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
         findViewById(R.id.btn_cast_up).setBackgroundTintList(csl);
         findViewById(R.id.btn_life_down).setBackgroundTintList(csl);
         findViewById(R.id.btn_life_up).setBackgroundTintList(csl);
+        if(c.buttonImageBlack) {
+            ImageButton btn = findViewById(R.id.btn_cast_down);
+            btn.setImageDrawable(getDrawable(R.drawable.remove_black));
+            btn = findViewById(R.id.btn_cast_up);
+            btn.setImageDrawable(getDrawable(R.drawable.add_black));
+            btn = findViewById(R.id.btn_life_down);
+            btn.setImageDrawable(getDrawable(R.drawable.remove_black_big));
+            btn = findViewById(R.id.btn_life_up);
+            btn.setImageDrawable(getDrawable(R.drawable.add_black_big));
+        }
     }
 
     private void setupMana(String[] manaCost, boolean setInitial) {

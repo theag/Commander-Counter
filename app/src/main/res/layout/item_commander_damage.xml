@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
-            android:ems="3"/>
+            android:textSize="@dimen/counter_text_size"
+            android:ems="2"/>
 
         <ImageButton
             android:id="@+id/btn_commander_up"

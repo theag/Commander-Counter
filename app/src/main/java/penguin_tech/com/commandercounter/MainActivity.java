@@ -1,11 +1,13 @@
 package penguin_tech.com.commandercounter;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.io.File;
@@ -13,8 +15,6 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String DIALOG_COMMANDER = "MainActivity.Dialog.Commander";
-    private static final String DIALOG_MESSAGE = "MainActivity.Dialog.Message";
     private static final int EDIT_COMMANDER_REQUEST = 1;
 
     @Override
@@ -34,13 +34,11 @@ public class MainActivity extends AppCompatActivity {
         ListView lv = findViewById(R.id.lv_commanders);
         DataController.getInstance().context = this;
         lv.setAdapter(DataController.getInstance());
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        /*MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);*/
-        return true;
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        int count = pref.getInt(getString(R.string.pref_player_count),4);
+        EditText et = findViewById(R.id.edt_player_count);
+        et.setText(""+count);
     }
 
     @Override
@@ -52,19 +50,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //todo: main menu stuff
-        /*switch(item.getItemId()) {
-            case R.id.mi_filter:
-                return true;
-            case R.id.mi_search:
-                return true;
-        }*/
-        return super.onOptionsItemSelected(item);
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        EditText et = findViewById(R.id.edt_player_count);
+        editor.putInt(getString(R.string.pref_player_count), Integer.parseInt(et.getText().toString()));
+        editor.commit();
+        System.out.println("pausing main");
     }
 
     public void btnClick(View v) {
@@ -85,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.lo_commander:
                 intent = new Intent(this, CommanderActivity.class);
                 intent.putExtra(CommanderActivity.INDEX, (int)v.getTag());
+                EditText et = findViewById(R.id.edt_player_count);
+                intent.putExtra(CommanderActivity.PLAYER_COUNT, Integer.parseInt(et.getText().toString()));
                 startActivity(intent);
                 break;
         }

@@ -110,6 +110,9 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
             ll.setBackgroundColor(colours[3]);
             Switch sw = findViewById(R.id.sw_button_image_colour);
             sw.setChecked(c.buttonImageBlack);
+            if(c.buttonImageBlack) {
+                btn.setImageDrawable(getDrawable(R.drawable.add_black));
+            }
         } else {
             ImageView iv = findViewById(R.id.iv_header_text);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -165,6 +168,7 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
                     });
                     ll.addView(manaDot);
                     manaDots.put((Integer) manaDot.getTag(), manaDot);
+                    break;
                 case R.id.iv_header_text:
                     frag = new ColourDialogFragment();
                     args = new Bundle();

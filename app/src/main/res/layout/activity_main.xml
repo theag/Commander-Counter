@@ -6,10 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/lbl_player_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/edt_player_count"
+        android:layout_marginLeft="5dp"
+        android:text="Player Count"/>
+
+    <EditText
+        android:id="@+id/edt_player_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/lbl_player_count"
+        android:layout_marginLeft="2dp"
+        android:ems="2"
+        android:inputType="number"/>
+
     <ListView
         android:id="@+id/lv_commanders"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="0dp"
+        android:layout_below="@+id/edt_player_count"
+        android:layout_alignParentBottom="true"></ListView>
 
 
     <ImageButton
