@@ -1,10 +1,13 @@
 package penguin_tech.com.commandercounter;
 
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.LevelListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +17,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class CommanderActivity extends AppCompatActivity implements EditValueDialogFragment.EditValueListener {
+public class CommanderActivity extends AppCompatActivity implements EditValueDialogFragment.EditValueListener, DialogClickListener {
 
     public static final String INDEX = "CommanderActivity.index";
     public static final String PLAYER_COUNT = "CommanderActivity.player.count";
     public static final String EDIT_LIFE_DIALOG = "CommanderActivity.EditLifeDialog";
+    public static final String RESET_DIALOG = "CommanderActivity.ResetDialog";
 
-    private static final int SETTINGS_REQUEST = 1;
-
+    private static final int PLAYER_NAME_REQUEST = 1;
     private static final int[][] NO_STATE = new int[1][0];
 
     private int index;
@@ -39,9 +42,19 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
         castCount = 0;
         life = 40;
         Commander c = DataController.getInstance().getItem(index);
-        adapter = new CommanderDamageAdapter(this, getIntent().getIntExtra(PLAYER_COUNT, 4), c.counterText, c.buttons, c.buttonImageBlack);
+        String[] names = new String[getIntent().getIntExtra(PLAYER_COUNT, 4)];
+        for(int i = 0; i < names.length; i++) {
+            names[i] = "Player " +(i+1);
+        }
+        adapter = new CommanderDamageAdapter(this, names.length, names, c.headerText, c.counterText, c.buttons, c.buttonImageBlack);
         TextView tv = findViewById(R.id.txt_commander_name);
         tv.setText(c.name);
+        tv.setTextColor(c.commanderText);
+        tv = findViewById(R.id.lbl_1);
+        tv.setTextColor(c.headerText);
+        tv = findViewById(R.id.lbl_2);
+        tv.setTextColor(c.headerText);
+        tv = findViewById(R.id.lbl_3);
         tv.setTextColor(c.headerText);
         LinearLayout ll = (LinearLayout) tv.getParent();
         ll.setBackgroundColor(c.background);
@@ -169,6 +182,12 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
                         args.putString(MessageDialogFragment.MESSAGE, "You are dead.");
                         frag.setArguments(args);
                         frag.show(getSupportFragmentManager(),"");
+                    } else if(life < 0) {
+                        frag = new MessageDialogFragment();
+                        args = new Bundle();
+                        args.putString(MessageDialogFragment.MESSAGE, "You are even more dead.");
+                        frag.setArguments(args);
+                        frag.show(getSupportFragmentManager(),"");
                     }
                 }
                 break;
@@ -190,6 +209,12 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
                     args.putString(MessageDialogFragment.MESSAGE, "You are dead.");
                     frag.setArguments(args);
                     frag.show(getSupportFragmentManager(),"");
+                } else if(adapter.getItem((int)view.getTag()) > 20) {
+                    frag = new MessageDialogFragment();
+                    args = new Bundle();
+                    args.putString(MessageDialogFragment.MESSAGE, "You are very dead.");
+                    frag.setArguments(args);
+                    frag.show(getSupportFragmentManager(),"");
                 }
                 break;
             case R.id.txt_life:
@@ -199,21 +224,28 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
                 frag.setArguments(args);
                 frag.show(getSupportFragmentManager(), EDIT_LIFE_DIALOG);
                 break;
+            case R.id.lbl_3:
+                Intent intent = new Intent(this, EditPlayersActivity.class);
+                intent.putExtra(EditPlayersActivity.COUNT, adapter.getCount());
+                intent.putExtra(EditPlayersActivity.NAMES, adapter.getNames());
+                startActivityForResult(intent, PLAYER_NAME_REQUEST);
+                break;
+            case R.id.txt_commander_name:
+                frag = new ConfirmDialogFragment();
+                args = new Bundle();
+                args.putString(ConfirmDialogFragment.MESSAGE, "Are you sure you wish to reset this game?");
+                args.putString(ConfirmDialogFragment.POS, "Yes");
+                args.putString(ConfirmDialogFragment.NEG, "No");
+                frag.setArguments(args);
+                frag.show(getSupportFragmentManager(), RESET_DIALOG);
+                break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case SETTINGS_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-                    int count = Integer.parseInt(sharedPreferences.getString(SettingsActivity.KEY_PREF_PLAYER_COUNT, "3"));
-                    if(count != adapter.getCount()) {
-                        adapter.setCount(count);
-                    }*/
-                }
-                break;
+        if(requestCode == PLAYER_NAME_REQUEST && resultCode == RESULT_OK) {
+            adapter.setCount(data.getIntExtra(EditPlayersActivity.COUNT, 4), data.getStringArrayExtra(EditPlayersActivity.NAMES));
         }
     }
 
@@ -228,6 +260,13 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
             args.putString(MessageDialogFragment.MESSAGE, "You are dead.");
             frag.setArguments(args);
             frag.show(getSupportFragmentManager(),"");
+        }
+    }
+
+    @Override
+    public void onDialogClick(String tag, Bundle data) {
+        if(tag.compareTo(RESET_DIALOG) == 0 && data.getInt(ConfirmDialogFragment.RESULT) == ConfirmDialogFragment.YES) {
+            reset();
         }
     }
 
@@ -267,4 +306,5 @@ public class CommanderActivity extends AppCompatActivity implements EditValueDia
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
+
 }

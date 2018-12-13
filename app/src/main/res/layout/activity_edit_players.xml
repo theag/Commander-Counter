@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditPlayersActivity">
+
+    <TextView
+        android:id="@+id/lbl_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="Number of Players"
+        android:layout_alignBaseline="@+id/edt_player_count"/>
+
+    <EditText
+        android:id="@+id/edt_player_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/lbl_1"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:inputType="number"
+        android:ems="2"/>
+
+    <Button
+        android:id="@+id/btn_update_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/edt_player_count"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:text="Update"
+        android:onClick="btnClick"/>
+
+    <ListView
+        android:id="@+id/lv_names"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/edt_player_count"
+        android:layout_above="@+id/btn_save"></ListView>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:text="Save"
+        android:onClick="btnClick"/>
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/btn_save"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="16dp"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:text="Cancel"
+        android:onClick="btnClick"/>
+
+</RelativeLayout>

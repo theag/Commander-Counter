@@ -6,8 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -40,18 +43,21 @@ public class ColourDialogFragment extends DialogFragment implements SeekBar.OnSe
         SeekBar sb = v.findViewById(R.id.seek_red);
         sb.setOnSeekBarChangeListener(this);
         sb.setProgress(r);
-        TextView tv = v.findViewById(R.id.text_red);
+        EditText tv = v.findViewById(R.id.text_red);
         tv.setText(""+sb.getProgress());
+        tv.addTextChangedListener(new ChangeSeekBar(sb));
         sb = v.findViewById(R.id.seek_green);
         sb.setOnSeekBarChangeListener(this);
         sb.setProgress(g);
         tv = v.findViewById(R.id.text_green);
         tv.setText(""+sb.getProgress());
+        tv.addTextChangedListener(new ChangeSeekBar(sb));
         sb = v.findViewById(R.id.seek_blue);
         sb.setOnSeekBarChangeListener(this);
         sb.setProgress(b);
         tv = v.findViewById(R.id.text_blue);
         tv.setText(""+sb.getProgress());
+        tv.addTextChangedListener(new ChangeSeekBar(sb));
         v.findViewById(R.id.view_colour).setBackgroundColor(colour);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(v)
@@ -124,5 +130,41 @@ public class ColourDialogFragment extends DialogFragment implements SeekBar.OnSe
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    private class ChangeSeekBar implements TextWatcher {
+
+        private SeekBar bar;
+        private int start;
+
+        ChangeSeekBar(SeekBar bar) {
+            this.bar = bar;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (count == 0) {
+                this.start = start;
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            if (editable.length() == 0) {
+                bar.setProgress(0);
+            } else {
+                int value = Integer.parseInt(editable.toString());
+                if(value > 255) {
+                    editable.delete(start, start+1);
+                } else {
+                    bar.setProgress(value);
+                }
+            }
+        }
     }
 }

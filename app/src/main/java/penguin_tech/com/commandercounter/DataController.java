@@ -106,10 +106,11 @@ public class DataController extends BaseAdapter {
         return view;
     }
 
-    public void update(int index, String name, String[] mana, int headerText, int counterText, int buttons, int background, boolean buttonImageBlack) {
+    public void update(int index, String name, String[] mana, int commanderText, int headerText, int counterText, int buttons, int background, boolean buttonImageBlack) {
         Commander c = getItem(index);
         c.name = name;
         c.manaCost = mana;
+        c.commanderText = commanderText;
         c.headerText = headerText;
         c.counterText = counterText;
         c.buttons = buttons;
@@ -119,8 +120,8 @@ public class DataController extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void create(String name, String[] mana, int headerText, int counterText, int buttons, int background, boolean buttonImageBlack) {
-        Commander c = new Commander(name, mana, headerText, counterText, buttons, background, buttonImageBlack);
+    public void create(String name, String[] mana, int commanderText, int headerText, int counterText, int buttons, int background, boolean buttonImageBlack) {
+        Commander c = new Commander(name, mana, commanderText, headerText, counterText, buttons, background, buttonImageBlack);
         commanders.add(c);
         Collections.sort(commanders);
         notifyDataSetChanged();

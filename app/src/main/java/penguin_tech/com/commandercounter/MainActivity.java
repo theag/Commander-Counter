@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         EditText et = findViewById(R.id.edt_player_count);
         editor.putInt(getString(R.string.pref_player_count), Integer.parseInt(et.getText().toString()));
         editor.commit();
-        System.out.println("pausing main");
     }
 
     public void btnClick(View v) {

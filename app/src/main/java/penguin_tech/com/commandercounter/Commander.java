@@ -6,16 +6,18 @@ public class Commander implements Comparable<Commander> {
 
     public String name;
     public String[] manaCost;
+    public int commanderText;
     public int headerText;
     public int counterText;
     public int buttons;
     public int background;
     public boolean buttonImageBlack;
 
-    public Commander(String name, String[] manaCost, int headerText, int counterText, int buttons, int background, boolean buttonImageBlack) {
+    public Commander(String name, String[] manaCost, int commanderText, int headerText, int counterText, int buttons, int background, boolean buttonImageBlack) {
         this.name = name;
         this.manaCost = new String[manaCost.length];
         System.arraycopy(manaCost, 0, this.manaCost, 0, manaCost.length);
+        this.commanderText = commanderText;
         this.headerText = headerText;
         this.counterText = counterText;
         this.buttons = buttons;
@@ -40,6 +42,7 @@ public class Commander implements Comparable<Commander> {
                 c = buffer.getChar();
             }
         }
+        commanderText = buffer.getInt();
         headerText = buffer.getInt();
         counterText = buffer.getInt();
         buttons = buffer.getInt();
@@ -57,7 +60,7 @@ public class Commander implements Comparable<Commander> {
         for(String mc : manaCost) {
             rv += 2*(mc.length() + 1);
         }
-        rv += 4*4 + 1;
+        rv += 4*5 + 1;
         return rv;
     }
 
@@ -73,6 +76,7 @@ public class Commander implements Comparable<Commander> {
             }
             buffer.putChar(DataController.ETX);
         }
+        buffer.putInt(commanderText);
         buffer.putInt(headerText);
         buffer.putInt(counterText);
         buffer.putInt(buttons);

@@ -42,19 +42,27 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         index = getIntent().getIntExtra(INDEX, -1);
-        System.out.println(index);
-        colours = new int[4];
+        colours = new int[5];
         manaDots = new HashMap<>();
         nextHash = 0;
+        LevelListDrawable d = (LevelListDrawable)((ImageView)findViewById(R.id.mana_1)).getDrawable();
+        d.setLevel(1);
+        d = (LevelListDrawable)((ImageView)findViewById(R.id.mana_2)).getDrawable();
+        d.setLevel(2);
+        d = (LevelListDrawable)((ImageView)findViewById(R.id.mana_3)).getDrawable();
+        d.setLevel(3);
+        d = (LevelListDrawable)((ImageView)findViewById(R.id.mana_4)).getDrawable();
+        d.setLevel(4);
+        d = (LevelListDrawable)((ImageView)findViewById(R.id.mana_5)).getDrawable();
+        d.setLevel(5);
         if(index >= 0) {
             Commander c = DataController.getInstance().getItem(index);
             EditText et = findViewById(R.id.edt_name);
             et.setText(c.name);
             TextView tv = findViewById(R.id.edt_cost);
             LinearLayout ll = findViewById(R.id.lo_mana);
-            View manaDot;
-            LevelListDrawable d;
             LayoutInflater li = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View manaDot;
             for(String mana : c.manaCost) {
                 manaDot = li.inflate(R.layout.mana_dot, null);
                 d = (LevelListDrawable)((ImageView)manaDot.findViewById(R.id.img_background)).getDrawable();
@@ -90,9 +98,9 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
             ImageView iv = findViewById(R.id.iv_header_text);
             colours[0] = c.headerText;
             iv.setBackgroundColor(colours[0]);
-            iv = findViewById(R.id.iv_counter_text);
-            tv = findViewById(R.id.txt_example_header);
+            tv = findViewById(R.id.lbl_example);
             tv.setTextColor(colours[0]);
+            iv = findViewById(R.id.iv_counter_text);
             colours[1] = c.counterText;
             iv.setBackgroundColor(colours[1]);
             iv = findViewById(R.id.iv_buttons);
@@ -108,6 +116,12 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
             iv.setBackgroundColor(colours[3]);
             ll = findViewById(R.id.ll_example);
             ll.setBackgroundColor(colours[3]);
+            iv = findViewById(R.id.iv_commander_text);
+            colours[4] = c.commanderText;
+            iv.setBackgroundColor(colours[4]);
+            tv = findViewById(R.id.txt_example_header);
+            tv.setTextColor(colours[4]);
+
             Switch sw = findViewById(R.id.sw_button_image_colour);
             sw.setChecked(c.buttonImageBlack);
             if(c.buttonImageBlack) {
@@ -142,6 +156,13 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
                 colours[3] = getResources().getColor(R.color.backgroundDefault);
             }
             iv.setBackgroundColor(colours[3]);
+            iv = findViewById(R.id.iv_commander_text);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                colours[4] = getColor(R.color.commanderTextDefault);
+            } else {
+                colours[4] = getResources().getColor(R.color.commanderTextDefault);
+            }
+            iv.setBackgroundColor(colours[4]);
         }
 
     }
@@ -168,6 +189,14 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
                     });
                     ll.addView(manaDot);
                     manaDots.put((Integer) manaDot.getTag(), manaDot);
+                    break;
+                case R.id.iv_commander_text:
+                    frag = new ColourDialogFragment();
+                    args = new Bundle();
+                    args.putInt(ColourDialogFragment.COLOUR, colours[4]);
+                    args.putString(ColourDialogFragment.TITLE, "Commander Text Colour");
+                    frag.setArguments(args);
+                    frag.show(getSupportFragmentManager(), COLOUR_DIALOG + "4");
                     break;
                 case R.id.iv_header_text:
                     frag = new ColourDialogFragment();
@@ -267,14 +296,14 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
                     dFrag.show(getSupportFragmentManager(), "edit_error");
                     return;
                 }
-                if(untyped.compareTo("0") != 0) {
+                if(untyped.compareTo("0") != 0 && !untyped.isEmpty()) {
                     manaCount++;
                 }
                 String[] manaCost;
                 if(manaCount > 0) {
                     manaCost = new String[manaCount];
                     int i = 0;
-                    if(untyped.compareTo("0") != 0) {
+                    if(untyped.compareTo("0") != 0 && !untyped.isEmpty()) {
                         manaCost[i++] = untyped;
                     }
                     LevelListDrawable d;
@@ -307,9 +336,9 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
                 }
                 Switch sw = findViewById(R.id.sw_button_image_colour);
                 if(index >= 0) {
-                    DataController.getInstance().update(index, name, manaCost, colours[0], colours[1], colours[2], colours[3], sw.isChecked());
+                    DataController.getInstance().update(index, name, manaCost, colours[4], colours[0], colours[1], colours[2], colours[3], sw.isChecked());
                 } else {
-                    DataController.getInstance().create(name, manaCost, colours[0], colours[1], colours[2], colours[3], sw.isChecked());
+                    DataController.getInstance().create(name, manaCost, colours[4], colours[0], colours[1], colours[2], colours[3], sw.isChecked());
                 }
                 try {
                     DataController instance = DataController.getInstance();
@@ -333,7 +362,7 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
                     colours[0] = data.getInt(ColourDialogFragment.COLOUR);
                     iv = findViewById(R.id.iv_header_text);
                     iv.setBackgroundColor(colours[0]);
-                    tv = findViewById(R.id.txt_example_header);
+                    tv = findViewById(R.id.lbl_example);
                     tv.setTextColor(colours[0]);
                     break;
                 case '1':
@@ -357,6 +386,13 @@ public class EditCommanderActivity extends AppCompatActivity implements DialogCl
                     iv.setBackgroundColor(colours[3]);
                     LinearLayout ll = findViewById(R.id.ll_example);
                     ll.setBackgroundColor(colours[3]);
+                    break;
+                case '4':
+                    colours[4] = data.getInt(ColourDialogFragment.COLOUR);
+                    iv = findViewById(R.id.iv_commander_text);
+                    iv.setBackgroundColor(colours[4]);
+                    tv = findViewById(R.id.txt_example_header);
+                    tv.setTextColor(colours[4]);
                     break;
             }
         } else if(tag.compareTo("edit_mana") == 0) {

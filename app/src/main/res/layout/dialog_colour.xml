@@ -19,11 +19,13 @@
             android:layout_height="wrap_content"
             android:text="Red" />
 
-        <TextView
+        <EditText
             android:id="@+id/text_red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:inputType="number"
+            android:ems="3"/>
 
     </LinearLayout>
 
@@ -42,11 +44,13 @@
             android:layout_height="wrap_content"
             android:text="Green" />
 
-        <TextView
+        <EditText
             android:id="@+id/text_green"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:inputType="number"
+            android:ems="3"/>
 
     </LinearLayout>
 
@@ -65,11 +69,13 @@
             android:layout_height="wrap_content"
             android:text="Blue" />
 
-        <TextView
+        <EditText
             android:id="@+id/text_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:inputType="number"
+            android:ems="3"/>
 
     </LinearLayout>
 

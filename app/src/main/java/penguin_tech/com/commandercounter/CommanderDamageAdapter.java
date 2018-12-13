@@ -15,13 +15,17 @@ public class CommanderDamageAdapter extends BaseAdapter {
 
     private Context context;
     private int[] commanderDamage;
+    private String[] playerNames;
+    private int headerText;
     private int counterText;
     private int buttons;
     private boolean buttonImageBlack;
 
-    public CommanderDamageAdapter(Context context, int count, int counterText, int buttons, boolean buttonImageBlack) {
+    public CommanderDamageAdapter(Context context, int count, String[] playerNames, int headerText, int counterText, int buttons, boolean buttonImageBlack) {
         this.context = context;
         commanderDamage = new int[count];
+        this.playerNames = playerNames;
+        this.headerText = headerText;
         this.counterText = counterText;
         this.buttons = buttons;
         this.buttonImageBlack = buttonImageBlack;
@@ -48,6 +52,8 @@ public class CommanderDamageAdapter extends BaseAdapter {
             LayoutInflater li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = li.inflate(R.layout.item_commander_damage, null);
             TextView tv = view.findViewById(R.id.txt_player);
+            tv.setTextColor(headerText);
+            tv = view.findViewById(R.id.txt_commander);
             tv.setTextColor(counterText);
             ColorStateList csl = new ColorStateList(NO_STATE, new int[]{buttons});
             ImageButton ib = view.findViewById(R.id.btn_commander_down);
@@ -62,7 +68,7 @@ public class CommanderDamageAdapter extends BaseAdapter {
             }
         }
         TextView tv = view.findViewById(R.id.txt_player);
-        tv.setText("Player " +(position+1));
+        tv.setText(playerNames[position]);
         tv = view.findViewById(R.id.txt_commander);
         tv.setText(""+commanderDamage[position]);
         tv.setTextColor(counterText);
@@ -73,7 +79,8 @@ public class CommanderDamageAdapter extends BaseAdapter {
         return view;
     }
 
-    public void setCount(int count) {
+    public void setCount(int count, String[] playerNames) {
+        this.playerNames = playerNames;
         int[] temp = commanderDamage;
         commanderDamage = new int[count];
         if(count > temp.length) {
@@ -99,5 +106,9 @@ public class CommanderDamageAdapter extends BaseAdapter {
             commanderDamage[i] = 0;
         }
         notifyDataSetChanged();
+    }
+
+    public String[] getNames() {
+        return playerNames;
     }
 }

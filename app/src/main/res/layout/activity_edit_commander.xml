@@ -76,6 +76,16 @@
         android:useDefaultMargins="true">
 
         <TextView
+            android:text="Commander Text"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="right"/>
+        <ImageView
+            android:id="@+id/iv_commander_text"
+            android:src="@drawable/colour_square"
+            android:clickable="true"
+            android:onClick="btnClick"/>
+
+        <TextView
             android:text="Header Text"
             android:layout_gravity="center_vertical|right"
             android:gravity="right"/>
@@ -139,7 +149,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/lbl_example"
+        android:id="@+id/lbl_examples"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_colour"
@@ -149,25 +159,93 @@
         android:id="@+id/ll_example"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lbl_example"
-        android:orientation="vertical">
+        android:layout_below="@+id/lbl_examples"
+        android:orientation="vertical"
+        android:padding="10dp">
         <TextView
             android:id="@+id/txt_example_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/commanderTextDefault"
             android:textSize="@dimen/header_text_size"
             android:text="Commander Name"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mana_circle"/>
+
+            <ImageView
+                android:id="@+id/mana_1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mana_circle"
+                android:layout_marginLeft="2dp"/>
+
+            <ImageView
+                android:id="@+id/mana_2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mana_circle"
+                android:layout_marginLeft="2dp"/>
+
+            <ImageView
+                android:id="@+id/mana_3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mana_circle"
+                android:layout_marginLeft="2dp"/>
+
+            <ImageView
+                android:id="@+id/mana_4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mana_circle"
+                android:layout_marginLeft="2dp"/>
+
+            <ImageView
+                android:id="@+id/mana_5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mana_circle"
+                android:layout_marginLeft="2dp"/>
+
+        </LinearLayout>
         <TextView
-            android:id="@+id/txt_example_counter"
+            android:id="@+id/lbl_example"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/counter_text_size"
-            android:text="Cast Count"/>
-        <ImageButton
-            android:id="@+id/btn_example"
+            android:text="Header Label"/>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/add_white"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txt_example_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/counter_text_size"
+                android:text="Cast Count"/>
+
+            <ImageButton
+                android:id="@+id/btn_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/add_white"/>
+
+        </LinearLayout>
     </LinearLayout>
 
     <Button
